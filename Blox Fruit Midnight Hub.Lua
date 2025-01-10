@@ -1,28 +1,22 @@
 -- Orion Library UI Initialization
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
-local Window = OrionLib:MakeWindow({
-    Name = "Midnight Hub",
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "MidnightHubConfig"
-})
+-- Load Kavo UI Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Midnight Hub", "DarkTheme")
 
--- Example UI Elements
-local Tab = Window:MakeTab({
-    Name = "Main",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+-- Main Tab
+local MainTab = Window:NewTab("Main")
+local MainSection = MainTab:NewSection("Main Features")
 
-Tab:AddToggle({
-    Name = "Auto Farm Level",
-    Default = false,
-    Callback = function(value)
-        _G.Settings.Main["Auto Farm Level"] = value
-    end
-})
+MainSection:NewToggle("Auto Farm Level", "Enable or Disable Auto Farm Level", function(value)
+    _G.Settings.Main["Auto Farm Level"] = value
+end)
 
-OrionLib:Init()
+MainSection:NewToggle("Fast Auto Farm", "Enable or Disable Fast Auto Farm Level", function(value)
+    _G.Settings.Main["Fast Auto Farm Level"] = value
+end)
+
+-- Other sections can be added similarly...
+
 
 print("https://discord.gg/s93CBSQuUn")
 toclipboard("https://discord.gg/s93CBSQuUn")
