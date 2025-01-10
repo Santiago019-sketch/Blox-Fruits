@@ -1,250 +1,119 @@
-local Mercury = loadstring(game:HttpGet("https://raw.githubusercontent.com/deeeity/mercury-lib/master/src.lua"))()
+-- Load the library
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/GreenDeno/Venyx-UI-Library/main/source.lua"))()
 
--- Create GUI
-local GUI = Mercury:Create{
-    Name = "Blox Fruits",
-    Size = UDim2.fromOffset(600, 400),
-    Theme = Mercury.Themes.Dark,
-    Link = "https://github.com/deeeity/mercury-lib"
-}
+-- Create the main window
+local venyx = library.new("Blox Fruits", 5013109572)
 
--- Main Farm Tab
-local FarmTab = GUI:Tab{
-    Name = "Main Farm",
-    Icon = "rbxassetid://4483345998"
-}
+-- Create pages
+local farm = venyx:addPage("Main Farm", 5012544693)
+local extras = venyx:addPage("Extra Farm", 5012544693)
+local world = venyx:addPage("World", 5012544693)
+local styles = venyx:addPage("Fighting Styles", 5012544693)
+local stats = venyx:addPage("Stats", 5012544693)
+local settings = venyx:addPage("Settings", 5012544693)
 
-FarmTab:Toggle{
-    Name = "Auto Farm Level",
-    StartingState = false,
-    Description = "Automatically farms levels",
-    Callback = function(Value)
-        _G.AutoFarmLevelReal = Value
-        Auto_Farm_Level = Value
-        if Value == false then
-            toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
-        end
+-- Main Farm Section
+local farmSection = farm:addSection("Farming")
+farmSection:addToggle("Auto Farm Level", nil, function(value)
+    _G.AutoFarmLevelReal = value
+    Auto_Farm_Level = value
+    if value == false then
+        toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
     end
-}
+end)
 
--- Extra Farm Tab
-local ExtraTab = GUI:Tab{
-    Name = "Extra Farm",
-    Icon = "rbxassetid://4483345998"
-}
+-- Extra Farm Section
+local extrasSection = extras:addSection("Extra Features")
+extrasSection:addToggle("Auto Farm Boss", nil, function(value)
+    _G.Settings.Boss["Auto All Boss"] = value
+end)
 
-ExtraTab:Toggle{
-    Name = "Auto Farm Boss",
-    StartingState = false,
-    Description = "Automatically farms bosses",
-    Callback = function(Value)
-        _G.Settings.Boss["Auto All Boss"] = Value
-    end
-}
+extrasSection:addToggle("Auto Farm Fruit Mastery", nil, function(value)
+    _G.Settings.Mastery["Auto Farm Fruit Mastery"] = value
+end)
 
-ExtraTab:Toggle{
-    Name = "Auto Farm Fruit Mastery",
-    StartingState = false,
-    Description = "Automatically farms fruit mastery",
-    Callback = function(Value)
-        _G.Settings.Mastery["Auto Farm Fruit Mastery"] = Value
-    end
-}
+extrasSection:addToggle("Auto Farm Gun Mastery", nil, function(value)
+    _G.Settings.Mastery["Auto Farm Gun Mastery"] = value
+end)
 
-ExtraTab:Toggle{
-    Name = "Auto Farm Gun Mastery",
-    StartingState = false,
-    Description = "Automatically farms gun mastery",
-    Callback = function(Value)
-        _G.Settings.Mastery["Auto Farm Gun Mastery"] = Value
-    end
-}
+-- World Section
+local worldSection = world:addSection("World Features")
+worldSection:addToggle("Auto New World", nil, function(value)
+    _G.Settings.Main["Auto New World"] = value
+end)
 
--- World Tab
-local WorldTab = GUI:Tab{
-    Name = "World",
-    Icon = "rbxassetid://4483345998"
-}
+worldSection:addToggle("Auto Third Sea", nil, function(value)
+    _G.Settings.Main["Auto Third Sea"] = value
+end)
 
-WorldTab:Toggle{
-    Name = "Auto New World",
-    StartingState = false,
-    Description = "Automatically moves to new world",
-    Callback = function(Value)
-        _G.Settings.Main["Auto New World"] = Value
-    end
-}
+-- Fighting Styles Section
+local stylesSection = styles:addSection("Fighting Styles")
+stylesSection:addToggle("Auto Superhuman", nil, function(value)
+    _G.Settings.FightingStyle["Auto Superhuman"] = value
+end)
 
-WorldTab:Toggle{
-    Name = "Auto Third Sea",
-    StartingState = false,
-    Description = "Automatically moves to third sea",
-    Callback = function(Value)
-        _G.Settings.Main["Auto Third Sea"] = Value
-    end
-}
+stylesSection:addToggle("Auto Electric Claw", nil, function(value)
+    _G.Settings.FightingStyle["Auto Electric Claw"] = value
+end)
 
--- Fighting Styles Tab
-local StylesTab = GUI:Tab{
-    Name = "Fighting Styles",
-    Icon = "rbxassetid://4483345998"
-}
+stylesSection:addToggle("Auto Death Step", nil, function(value)
+    _G.Settings.FightingStyle["Auto Death Step"] = value
+end)
 
-StylesTab:Toggle{
-    Name = "Auto Superhuman",
-    StartingState = false,
-    Description = "Automatically gets superhuman",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Superhuman"] = Value
-    end
-}
+stylesSection:addToggle("Auto Dragon Talon", nil, function(value)
+    _G.Settings.FightingStyle["Auto Dragon Talon"] = value
+end)
 
-StylesTab:Toggle{
-    Name = "Auto Electric Claw",
-    StartingState = false,
-    Description = "Automatically gets electric claw",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Electric Claw"] = Value
-    end
-}
+stylesSection:addToggle("Auto God Human", nil, function(value)
+    _G.Settings.FightingStyle["Auto God Human"] = value
+end)
 
-StylesTab:Toggle{
-    Name = "Auto Death Step",
-    StartingState = false,
-    Description = "Automatically gets death step",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Death Step"] = Value
-    end
-}
+-- Stats Section
+local statsSection = stats:addSection("Stats")
+statsSection:addToggle("Auto Stats", nil, function(value)
+    _G.Settings.Stat["Enabled Auto Stats"] = value
+end)
 
-StylesTab:Toggle{
-    Name = "Auto Dragon Talon",
-    StartingState = false,
-    Description = "Automatically gets dragon talon",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Dragon Talon"] = Value
-    end
-}
+statsSection:addDropdown("Select Stats", {"Melee", "Defense", "Sword", "Gun", "Devil Fruit"}, function(value)
+    _G.Settings.Stat["Select Stats"] = value
+end)
 
-StylesTab:Toggle{
-    Name = "Auto God Human",
-    StartingState = false,
-    Description = "Automatically gets god human",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto God Human"] = Value
-    end
-}
+statsSection:addSlider("Points Per Stats", 1, 1, 9, function(value)
+    _G.Settings.Stat["Point Select"] = value
+end)
 
--- Stats Tab
-local StatsTab = GUI:Tab{
-    Name = "Stats",
-    Icon = "rbxassetid://4483345998"
-}
+-- Settings Section
+local settingsSection = settings:addSection("Settings")
+settingsSection:addDropdown("Select Weapon", {"Melee", "Sword", "Fruit"}, function(value)
+    SelectWeapon = value
+end)
 
-StatsTab:Toggle{
-    Name = "Auto Stats",
-    StartingState = false,
-    Description = "Automatically upgrades stats",
-    Callback = function(Value)
-        _G.Settings.Stat["Enabled Auto Stats"] = Value
-    end
-}
+settingsSection:addToggle("Fast Attack", true, function(value)
+    _G.Settings.Configs["Fast Attack"] = value
+end)
 
-StatsTab:Dropdown{
-    Name = "Select Stats",
-    StartingText = "Select Stat",
-    Description = "Choose which stat to upgrade",
-    Items = {"Melee", "Defense", "Sword", "Gun", "Devil Fruit"},
-    Callback = function(Value)
-        _G.Settings.Stat["Select Stats"] = Value
-    end
-}
+settingsSection:addDropdown("Fast Attack Type", {"Fast", "Normal", "Slow"}, function(value)
+    _G.Settings.Configs["Fast Attack Type"] = value
+end)
 
-StatsTab:Slider{
-    Name = "Points Per Stats",
-    Default = 3,
-    Min = 1,
-    Max = 9,
-    Description = "Points to allocate per upgrade",
-    Callback = function(Value)
-        _G.Settings.Stat["Point Select"] = Value
-    end
-}
+settingsSection:addToggle("Auto Haki", true, function(value)
+    _G.Settings.Configs["Auto Haki"] = value
+end)
 
--- Settings Tab
-local SettingsTab = GUI:Tab{
-    Name = "Settings",
-    Icon = "rbxassetid://4483345998"
-}
+settingsSection:addSlider("Distance Auto Farm", 1, 1, 50, function(value)
+    _G.Settings.Configs["Distance Auto Farm"] = value
+end)
 
-SettingsTab:Dropdown{
-    Name = "Select Weapon",
-    StartingText = "Select Weapon",
-    Description = "Choose your weapon type",
-    Items = {"Melee", "Sword", "Fruit"},
-    Callback = function(Value)
-        SelectWeapon = Value
-    end
-}
+local miscSection = settings:addSection("Misc")
+miscSection:addToggle("Bypass TP", nil, function(value)
+    _G.Settings.Configs["Bypass TP"] = value
+end)
 
-SettingsTab:Toggle{
-    Name = "Fast Attack",
-    StartingState = true,
-    Description = "Enables fast attack",
-    Callback = function(Value)
-        _G.Settings.Configs["Fast Attack"] = Value
-    end
-}
+miscSection:addToggle("Auto Rejoin", true, function(value)
+    _G.Settings.Misc["Auto Rejoin"] = value
+end)
 
-SettingsTab:Dropdown{
-    Name = "Fast Attack Type",
-    StartingText = "Select Attack Speed",
-    Description = "Choose attack speed",
-    Items = {"Fast", "Normal", "Slow"},
-    Callback = function(Value)
-        _G.Settings.Configs["Fast Attack Type"] = Value
-    end
-}
-
-SettingsTab:Toggle{
-    Name = "Auto Haki",
-    StartingState = true,
-    Description = "Automatically uses Haki",
-    Callback = function(Value)
-        _G.Settings.Configs["Auto Haki"] = Value
-    end
-}
-
-SettingsTab:Slider{
-    Name = "Distance Auto Farm",
-    Default = 20,
-    Min = 1,
-    Max = 50,
-    Description = "Set auto farm distance",
-    Callback = function(Value)
-        _G.Settings.Configs["Distance Auto Farm"] = Value
-    end
-}
-
-SettingsTab:Toggle{
-    Name = "Bypass TP",
-    StartingState = false,
-    Description = "Bypasses teleport restrictions",
-    Callback = function(Value)
-        _G.Settings.Configs["Bypass TP"] = Value
-    end
-}
-
-SettingsTab:Toggle{
-    Name = "Auto Rejoin",
-    StartingState = true,
-    Description = "Automatically rejoins game",
-    Callback = function(Value)
-        _G.Settings.Misc["Auto Rejoin"] = Value
-    end
-}
-
--- Initialize settings if they don't exist
+-- Initialize Settings
 if not _G.Settings then
     _G.Settings = {
         Boss = {["Auto All Boss"] = false},
@@ -281,10 +150,27 @@ if not _G.Settings then
     }
 end
 
--- Notification to confirm script loaded
-GUI:Notification{
-    Title = "Script Loaded",
-    Text = "Blox Fruits script is now running!",
-    Duration = 3,
-    Callback = function() end
+-- Theme customization
+local themes = {
+    Background = Color3.fromRGB(24, 24, 24),
+    Glow = Color3.fromRGB(0, 0, 0),
+    Accent = Color3.fromRGB(10, 10, 10),
+    LightContrast = Color3.fromRGB(20, 20, 20),
+    DarkContrast = Color3.fromRGB(14, 14, 14),  
+    TextColor = Color3.fromRGB(255, 255, 255)
 }
+
+-- Load theme
+for theme, color in pairs(themes) do
+    venyx:setTheme(theme, color)
+end
+
+-- Show UI
+venyx:SelectPage(venyx.pages[1], true)
+
+-- Toggle key
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.RightControl then
+        venyx:toggle()
+    end
+end)
