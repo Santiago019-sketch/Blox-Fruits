@@ -1,237 +1,165 @@
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
-
-local Window = Rayfield:CreateWindow({
-    Name = "Blox Fruits Auto Farm",
-    LoadingTitle = "Loading Script...",
-    LoadingSubtitle = "by Anonymous",
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "BloxFruitsConfig",
-        FileName = "BloxFruits"
-    }
-})
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Blox Fruits Auto Farm", "Ocean")
 
 -- Main farming tab
-local FarmTab = Window:CreateTab("Main Farm", 4483345998)
+local FarmTab = Window:NewTab("Main Farm")
+local FarmSection = FarmTab:NewSection("Farming")
 
 -- Additional farming tab
-local ExtraFarmTab = Window:CreateTab("Extra Farm", 4483345998)
+local ExtraFarmTab = Window:NewTab("Extra Farm")
+local ExtraFarmSection = ExtraFarmTab:NewSection("Extra Features")
 
 -- World specific tab
-local WorldTab = Window:CreateTab("World", 4483345998)
+local WorldTab = Window:NewTab("World")
+local WorldSection = WorldTab:NewSection("World Features")
 
 -- Settings tab
-local SettingsTab = Window:CreateTab("Settings", 4483345998)
+local SettingsTab = Window:NewTab("Settings")
+local SettingsSection = SettingsTab:NewSection("Settings")
 
 -- Fighting Styles tab
-local StylesTab = Window:CreateTab("Fighting Styles", 4483345998)
+local StylesTab = Window:NewTab("Fighting Styles")
+local StylesSection = StylesTab:NewSection("Fighting Styles")
 
 -- Stats tab
-local StatsTab = Window:CreateTab("Stats", 4483345998)
+local StatsTab = Window:NewTab("Stats")
+local StatsSection = StatsTab:NewSection("Stats")
 
 -- Main farming toggle
-FarmTab:CreateToggle({
-    Name = "Auto Farm Level",
-    CurrentValue = false,
-    Flag = "AutoFarmLevel",
-    Callback = function(Value)
-        _G.AutoFarmLevelReal = Value
-        Auto_Farm_Level = Value
-        if Value == false then
-            toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
-        end
+FarmSection:NewToggle("Auto Farm Level", "Toggles auto farming", function(Value)
+    _G.AutoFarmLevelReal = Value
+    Auto_Farm_Level = Value
+    if Value == false then
+        toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
     end
-})
+end)
 
 -- Extra Farm Features
-ExtraFarmTab:CreateToggle({
-    Name = "Auto Farm Boss",
-    CurrentValue = false,
-    Flag = "AutoFarmBoss",
-    Callback = function(Value)
-        _G.Settings.Boss["Auto All Boss"] = Value
-    end
-})
+ExtraFarmSection:NewToggle("Auto Farm Boss", "Toggles boss farming", function(Value)
+    _G.Settings.Boss["Auto All Boss"] = Value
+end)
 
-ExtraFarmTab:CreateToggle({
-    Name = "Auto Farm Fruit Mastery",
-    CurrentValue = false,
-    Flag = "AutoFruitMastery",
-    Callback = function(Value)
-        _G.Settings.Mastery["Auto Farm Fruit Mastery"] = Value
-    end
-})
+ExtraFarmSection:NewToggle("Auto Farm Fruit Mastery", "Toggles fruit mastery farming", function(Value)
+    _G.Settings.Mastery["Auto Farm Fruit Mastery"] = Value
+end)
 
-ExtraFarmTab:CreateToggle({
-    Name = "Auto Farm Gun Mastery",
-    CurrentValue = false,
-    Flag = "AutoGunMastery",
-    Callback = function(Value)
-        _G.Settings.Mastery["Auto Farm Gun Mastery"] = Value
-    end
-})
+ExtraFarmSection:NewToggle("Auto Farm Gun Mastery", "Toggles gun mastery farming", function(Value)
+    _G.Settings.Mastery["Auto Farm Gun Mastery"] = Value
+end)
 
 -- World Features
-WorldTab:CreateToggle({
-    Name = "Auto New World",
-    CurrentValue = false,
-    Flag = "AutoNewWorld",
-    Callback = function(Value)
-        _G.Settings.Main["Auto New World"] = Value
-    end
-})
+WorldSection:NewToggle("Auto New World", "Automatically moves to new world", function(Value)
+    _G.Settings.Main["Auto New World"] = Value
+end)
 
-WorldTab:CreateToggle({
-    Name = "Auto Third Sea",
-    CurrentValue = false,
-    Flag = "AutoThirdSea",
-    Callback = function(Value)
-        _G.Settings.Main["Auto Third Sea"] = Value
-    end
-})
+WorldSection:NewToggle("Auto Third Sea", "Automatically moves to third sea", function(Value)
+    _G.Settings.Main["Auto Third Sea"] = Value
+end)
 
 -- Fighting Styles
-StylesTab:CreateToggle({
-    Name = "Auto Superhuman",
-    CurrentValue = false,
-    Flag = "AutoSuperhuman",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Superhuman"] = Value
-    end
-})
+StylesSection:NewToggle("Auto Superhuman", "Toggles auto superhuman", function(Value)
+    _G.Settings.FightingStyle["Auto Superhuman"] = Value
+end)
 
-StylesTab:CreateToggle({
-    Name = "Auto Electric Claw",
-    CurrentValue = false,
-    Flag = "AutoElectricClaw",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Electric Claw"] = Value
-    end
-})
+StylesSection:NewToggle("Auto Electric Claw", "Toggles auto electric claw", function(Value)
+    _G.Settings.FightingStyle["Auto Electric Claw"] = Value
+end)
 
-StylesTab:CreateToggle({
-    Name = "Auto Death Step",
-    CurrentValue = false,
-    Flag = "AutoDeathStep",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Death Step"] = Value
-    end
-})
+StylesSection:NewToggle("Auto Death Step", "Toggles auto death step", function(Value)
+    _G.Settings.FightingStyle["Auto Death Step"] = Value
+end)
 
-StylesTab:CreateToggle({
-    Name = "Auto Dragon Talon",
-    CurrentValue = false,
-    Flag = "AutoDragonTalon",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto Dragon Talon"] = Value
-    end
-})
+StylesSection:NewToggle("Auto Dragon Talon", "Toggles auto dragon talon", function(Value)
+    _G.Settings.FightingStyle["Auto Dragon Talon"] = Value
+end)
 
-StylesTab:CreateToggle({
-    Name = "Auto God Human",
-    CurrentValue = false,
-    Flag = "AutoGodHuman",
-    Callback = function(Value)
-        _G.Settings.FightingStyle["Auto God Human"] = Value
-    end
-})
+StylesSection:NewToggle("Auto God Human", "Toggles auto god human", function(Value)
+    _G.Settings.FightingStyle["Auto God Human"] = Value
+end)
 
 -- Stats Features
-StatsTab:CreateToggle({
-    Name = "Auto Stats",
-    CurrentValue = false,
-    Flag = "AutoStats",
-    Callback = function(Value)
-        _G.Settings.Stat["Enabled Auto Stats"] = Value
-    end
-})
+StatsSection:NewToggle("Auto Stats", "Toggles auto stats", function(Value)
+    _G.Settings.Stat["Enabled Auto Stats"] = Value
+end)
 
-StatsTab:CreateDropdown({
-    Name = "Select Stats",
-    Options = {"Melee", "Defense", "Sword", "Gun", "Devil Fruit"},
-    CurrentOption = "Melee",
-    Flag = "SelectedStats",
-    Callback = function(Value)
-        _G.Settings.Stat["Select Stats"] = Value
-    end
-})
+StatsSection:NewDropdown("Select Stats", "Select which stat to auto upgrade", {"Melee", "Defense", "Sword", "Gun", "Devil Fruit"}, function(Value)
+    _G.Settings.Stat["Select Stats"] = Value
+end)
 
-StatsTab:CreateSlider({
-    Name = "Points Per Stats",
-    Range = {1, 9},
-    Increment = 1,
-    CurrentValue = 3,
-    Flag = "PointsPerStat",
-    Callback = function(Value)
-        _G.Settings.Stat["Point Select"] = Value
-    end
-})
+StatsSection:NewSlider("Points Per Stats", "Select points per stat upgrade", 9, 1, function(Value)
+    _G.Settings.Stat["Point Select"] = Value
+end)
 
 -- Settings
-SettingsTab:CreateDropdown({
-    Name = "Select Weapon",
-    Options = {"Melee", "Sword", "Fruit"},
-    CurrentOption = "Melee",
-    Flag = "SelectedWeapon",
-    Callback = function(Value)
-        SelectWeapon = Value
-    end
-})
+SettingsSection:NewDropdown("Select Weapon", "Select your weapon type", {"Melee", "Sword", "Fruit"}, function(Value)
+    SelectWeapon = Value
+end)
 
-SettingsTab:CreateToggle({
-    Name = "Fast Attack",
-    CurrentValue = true,
-    Flag = "FastAttack",
-    Callback = function(Value)
-        _G.Settings.Configs["Fast Attack"] = Value
-    end
-})
+SettingsSection:NewToggle("Fast Attack", "Toggles fast attack", function(Value)
+    _G.Settings.Configs["Fast Attack"] = Value
+end)
 
-SettingsTab:CreateDropdown({
-    Name = "Fast Attack Type",
-    Options = {"Fast", "Normal", "Slow"},
-    CurrentOption = "Fast",
-    Flag = "FastAttackType",
-    Callback = function(Value)
-        _G.Settings.Configs["Fast Attack Type"] = Value
-    end
-})
+SettingsSection:NewDropdown("Fast Attack Type", "Select fast attack speed", {"Fast", "Normal", "Slow"}, function(Value)
+    _G.Settings.Configs["Fast Attack Type"] = Value
+end)
 
-SettingsTab:CreateToggle({
-    Name = "Auto Haki",
-    CurrentValue = true,
-    Flag = "AutoHaki",
-    Callback = function(Value)
-        _G.Settings.Configs["Auto Haki"] = Value
-    end
-})
+SettingsSection:NewToggle("Auto Haki", "Toggles auto haki", function(Value)
+    _G.Settings.Configs["Auto Haki"] = Value
+end)
 
-SettingsTab:CreateSlider({
-    Name = "Distance Auto Farm",
-    Range = {1, 50},
-    Increment = 1,
-    CurrentValue = 20,
-    Flag = "AutoFarmDistance",
-    Callback = function(Value)
-        _G.Settings.Configs["Distance Auto Farm"] = Value
-    end
-})
+SettingsSection:NewSlider("Distance Auto Farm", "Adjust auto farm distance", 50, 1, function(Value)
+    _G.Settings.Configs["Distance Auto Farm"] = Value
+end)
 
 -- Misc Settings
-SettingsTab:CreateToggle({
-    Name = "Bypass TP",
-    CurrentValue = false,
-    Flag = "BypassTP",
-    Callback = function(Value)
-        _G.Settings.Configs["Bypass TP"] = Value
-    end
-})
+local MiscSection = SettingsTab:NewSection("Misc")
 
-SettingsTab:CreateToggle({
-    Name = "Auto Rejoin",
-    CurrentValue = true,
-    Flag = "AutoRejoin",
-    Callback = function(Value)
-        _G.Settings.Misc["Auto Rejoin"] = Value
-    end
-})
+MiscSection:NewToggle("Bypass TP", "Toggles teleport bypass", function(Value)
+    _G.Settings.Configs["Bypass TP"] = Value
+end)
+
+MiscSection:NewToggle("Auto Rejoin", "Toggles auto rejoin", function(Value)
+    _G.Settings.Misc["Auto Rejoin"] = Value
+end)
+
+-- Keybind to toggle UI
+SettingsSection:NewKeybind("Toggle UI", "Toggles the UI visibility", Enum.KeyCode.RightControl, function()
+    Library:ToggleUI()
+end)
+
+-- Initialize Settings if they don't exist
+if not _G.Settings then
+    _G.Settings = {
+        Boss = {["Auto All Boss"] = false},
+        Mastery = {
+            ["Auto Farm Fruit Mastery"] = false,
+            ["Auto Farm Gun Mastery"] = false
+        },
+        Main = {
+            ["Auto New World"] = false,
+            ["Auto Third Sea"] = false
+        },
+        FightingStyle = {
+            ["Auto Superhuman"] = false,
+            ["Auto Electric Claw"] = false,
+            ["Auto Death Step"] = false,
+            ["Auto Dragon Talon"] = false,
+            ["Auto God Human"] = false
+        },
+        Stat = {
+            ["Enabled Auto Stats"] = false,
+            ["Select Stats"] = "Melee",
+            ["Point Select"] = 3
+        },
+        Configs = {
+            ["Fast Attack"] = true,
+            ["Fast Attack Type"] = "Fast",
+            ["Auto Haki"] = true,
+            ["Distance Auto Farm"] = 20,
+            ["Bypass TP"] = false
+        },
+        Misc = {
+            ["Auto Rejoin"] = true
+        }
+    }
+end
