@@ -35,7 +35,10 @@ MainTab:AddButton({
 -- Initialize the UI
 OrionLib:Init()
 
-end
+    end 
+
+})
+
 	GG["DisableSystem"] = true;
 
 	local Configs = {
