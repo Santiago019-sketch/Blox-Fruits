@@ -1,72 +1,41 @@
--- Midnight Hub Script
+-- Orion Library for Midnight Hub
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
--- Added a movable and mobile-friendly UI
-local function getMethodLoading()
-    local GG = (getgenv and getgenv()) or _G or shared
-    if GG.IdenG ~= nil then
-        Iden = GG.IdenG
-    else
-        pcall(function() Iden = identifyexecutor() end)
+local Window = OrionLib:MakeWindow({
+    Name = "Midnight Hub",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "MidnightHubConfig"
+})
+
+-- Example: Adding a tab
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Example: Adding a toggle
+MainTab:AddToggle({
+    Name = "Auto Farm",
+    Default = false,
+    Callback = function(Value)
+        print("Auto Farm is now", Value and "ON" or "OFF")
     end
+})
 
-    -- Remove any existing UI for fresh initialization
-    if game:GetService("CoreGui"):FindFirstChild("MidnightHub_UI") then
-        pcall(function()
-            game:GetService("CoreGui"):FindFirstChild("MidnightHub_UI"):Destroy()
-        end)
+-- Example: Adding a button
+MainTab:AddButton({
+    Name = "Teleport",
+    Callback = function()
+        print("Teleport button clicked!")
     end
+})
 
-    -- Create the Midnight Hub UI
-    local MidnightHubUI = Instance.new("ScreenGui", game:GetService("CoreGui"))
-    MidnightHubUI.Name = "MidnightHub_UI"
-    local Frame = Instance.new("Frame", MidnightHubUI)
-    Frame.Size = UDim2.new(0.4, 0, 0.4, 0)
-    Frame.Position = UDim2.new(0.3, 0, 0.3, 0)
-    Frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
-    Frame.Active = true
-    Frame.Draggable = true
+-- Initialize the UI
+OrionLib:Init()
 
-    local Title = Instance.new("TextLabel", Frame)
-    Title.Size = UDim2.new(1, 0, 0.1, 0)
-    Title.Position = UDim2.new(0, 0, 0, 0)
-    Title.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-    Title.Text = "Midnight Hub"
-    Title.TextColor3 = Color3.new(1, 1, 1)
-    Title.Font = Enum.Font.SourceSansBold
-    Title.TextScaled = true
-
-    local Credits = Instance.new("TextLabel", Frame)
-    Credits.Size = UDim2.new(1, 0, 0.1, 0)
-    Credits.Position = UDim2.new(0, 0, 0.9, 0)
-    Credits.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-    Credits.Text = "Credits: Midnight Hub Team"
-    Credits.TextColor3 = Color3.new(1, 1, 1)
-    Credits.Font = Enum.Font.SourceSans
-    Credits.TextScaled = true
-
-    -- Additional script logic can be added here...
 end
-
-getMethodLoading()
-
--- Rest of the original script
-local function getMethodLoading()
-	local GG = (getgenv and getgenv()) or _G or shared;
-	if GG.IdenG ~= nil then
-		Iden = GG.IdenG
-	else
-		pcall(function() Iden = identifyexecutor(); end);
-	end;
-	if game:GetService("CoreGui"):FindFirstChild("InputPcToMobile") then
-		pcall(function() game:GetService("CoreGui"):FindFirstChild("InputPcToMobile"):Destroy(); end);
-	end;
-	if not game:GetService("CoreGui"):FindFirstChild("Neu") then
-		local Neu = Instance.new("ScreenGui");
-		Neu.Parent = game:GetService("CoreGui")
-		Neu.IgnoreGuiInset = true;
-		GG["Neu"] = Neu;
-	end;
-
 	GG["DisableSystem"] = true;
 
 	local Configs = {
