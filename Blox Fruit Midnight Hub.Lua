@@ -1,3 +1,55 @@
+-- Midnight Hub Script
+
+-- Added a movable and mobile-friendly UI
+local function getMethodLoading()
+    local GG = (getgenv and getgenv()) or _G or shared
+    if GG.IdenG ~= nil then
+        Iden = GG.IdenG
+    else
+        pcall(function() Iden = identifyexecutor() end)
+    end
+
+    -- Remove any existing UI for fresh initialization
+    if game:GetService("CoreGui"):FindFirstChild("MidnightHub_UI") then
+        pcall(function()
+            game:GetService("CoreGui"):FindFirstChild("MidnightHub_UI"):Destroy()
+        end)
+    end
+
+    -- Create the Midnight Hub UI
+    local MidnightHubUI = Instance.new("ScreenGui", game:GetService("CoreGui"))
+    MidnightHubUI.Name = "MidnightHub_UI"
+    local Frame = Instance.new("Frame", MidnightHubUI)
+    Frame.Size = UDim2.new(0.4, 0, 0.4, 0)
+    Frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+    Frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+    Frame.Active = true
+    Frame.Draggable = true
+
+    local Title = Instance.new("TextLabel", Frame)
+    Title.Size = UDim2.new(1, 0, 0.1, 0)
+    Title.Position = UDim2.new(0, 0, 0, 0)
+    Title.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+    Title.Text = "Midnight Hub"
+    Title.TextColor3 = Color3.new(1, 1, 1)
+    Title.Font = Enum.Font.SourceSansBold
+    Title.TextScaled = true
+
+    local Credits = Instance.new("TextLabel", Frame)
+    Credits.Size = UDim2.new(1, 0, 0.1, 0)
+    Credits.Position = UDim2.new(0, 0, 0.9, 0)
+    Credits.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+    Credits.Text = "Credits: Midnight Hub Team"
+    Credits.TextColor3 = Color3.new(1, 1, 1)
+    Credits.Font = Enum.Font.SourceSans
+    Credits.TextScaled = true
+
+    -- Additional script logic can be added here...
+end
+
+getMethodLoading()
+
+-- Rest of the original script
 local function getMethodLoading()
 	local GG = (getgenv and getgenv()) or _G or shared;
 	if GG.IdenG ~= nil then
@@ -171,7 +223,7 @@ local function getMethodLoading()
 				["BringMob"] = false;
 				["BringMobType"] = "Target";
 				["BringMobDistance"] = 180;
-				["Stackable"] = true; -- ALWAYS ON ⚠️⚠️⚠️
+				["Stackable"] = true; -- ALWAYS ON âš ï¸âš ï¸âš ï¸
 				["PosX"] = 0;
 				["PosY"] = 19;
 				["PosZ"] = -10;
@@ -2929,7 +2981,7 @@ local function getMethodLoading()
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy Dragon Claw (ƒ1,500 )",
+		Title = "Buy Dragon Claw (Æ’1,500 )",
 		Callback = function()
 			CommF:InvokeServer("BlackbeardReward", "DragonClaw", "1");
 			CommF:InvokeServer("BlackbeardReward", "DragonClaw", "2");
@@ -2942,32 +2994,32 @@ local function getMethodLoading()
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy Death Step (ƒ5,000 $5,000,000)",
+		Title = "Buy Death Step (Æ’5,000 $5,000,000)",
 		Callback = function()
 			CommF:InvokeServer("BuyDeathStep");
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy Sharkman Karate (ƒ5,000 $2,500,000)",
+		Title = "Buy Sharkman Karate (Æ’5,000 $2,500,000)",
 		Callback = function()
 			CommF:InvokeServer("BuySharkmanKarate", true);
 			CommF:InvokeServer("BuySharkmanKarate");
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy Electric Claw (ƒ5,000 $3,000,000)",
+		Title = "Buy Electric Claw (Æ’5,000 $3,000,000)",
 		Callback = function()
 			CommF:InvokeServer("BuyElectricClaw");
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy God Human (ƒ5,000 $5,000,000)",
+		Title = "Buy God Human (Æ’5,000 $5,000,000)",
 		Callback = function()
 			CommF:InvokeServer("BuyGodhuman");
 		end,
 	});
 	FightingStyleSe:NewButton({
-		Title = "Buy Sanguine Art (ƒ5,000 $5,000,000)",
+		Title = "Buy Sanguine Art (Æ’5,000 $5,000,000)",
 		Callback = function()
 			CommF:InvokeServer("BuySanguineArt", true);
 			CommF:InvokeServer("BuySanguineArt");
