@@ -1,317 +1,237 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-local Window = OrionLib:MakeWindow({
-    Name = "Blox Fruits Auto Farm", 
-    HidePremium = false,
-    SaveConfig = true,
-    ConfigFolder = "BloxFruitsConfig"
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "Blox Fruits Auto Farm",
+    LoadingTitle = "Loading Script...",
+    LoadingSubtitle = "by Anonymous",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "BloxFruitsConfig",
+        FileName = "BloxFruits"
+    }
 })
 
 -- Main farming tab
-local FarmTab = Window:MakeTab({
-    Name = "Main Farm",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local FarmTab = Window:CreateTab("Main Farm", 4483345998)
 
 -- Additional farming tab
-local ExtraFarmTab = Window:MakeTab({
-    Name = "Extra Farm",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local ExtraFarmTab = Window:CreateTab("Extra Farm", 4483345998)
 
 -- World specific tab
-local WorldTab = Window:MakeTab({
-    Name = "World",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local WorldTab = Window:CreateTab("World", 4483345998)
 
 -- Settings tab
-local SettingsTab = Window:MakeTab({
-    Name = "Settings",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local SettingsTab = Window:CreateTab("Settings", 4483345998)
 
 -- Fighting Styles tab
-local StylesTab = Window:MakeTab({
-    Name = "Fighting Styles",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local StylesTab = Window:CreateTab("Fighting Styles", 4483345998)
 
 -- Stats tab
-local StatsTab = Window:MakeTab({
-    Name = "Stats",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+local StatsTab = Window:CreateTab("Stats", 4483345998)
 
 -- Main farming toggle
-FarmTab:AddToggle({
+FarmTab:CreateToggle({
     Name = "Auto Farm Level",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoFarmLevel",
     Callback = function(Value)
         _G.AutoFarmLevelReal = Value
         Auto_Farm_Level = Value
         if Value == false then
             toTarget(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
         end
-    end    
+    end
 })
 
 -- Extra Farm Features
-ExtraFarmTab:AddToggle({
+ExtraFarmTab:CreateToggle({
     Name = "Auto Farm Boss",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoFarmBoss",
     Callback = function(Value)
         _G.Settings.Boss["Auto All Boss"] = Value
-    end    
+    end
 })
 
-ExtraFarmTab:AddToggle({
+ExtraFarmTab:CreateToggle({
     Name = "Auto Farm Fruit Mastery",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoFruitMastery",
     Callback = function(Value)
         _G.Settings.Mastery["Auto Farm Fruit Mastery"] = Value
-    end    
+    end
 })
 
-ExtraFarmTab:AddToggle({
+ExtraFarmTab:CreateToggle({
     Name = "Auto Farm Gun Mastery",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoGunMastery",
     Callback = function(Value)
         _G.Settings.Mastery["Auto Farm Gun Mastery"] = Value
-    end    
+    end
 })
 
 -- World Features
-WorldTab:AddToggle({
+WorldTab:CreateToggle({
     Name = "Auto New World",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoNewWorld",
     Callback = function(Value)
         _G.Settings.Main["Auto New World"] = Value
-    end    
+    end
 })
 
-WorldTab:AddToggle({
+WorldTab:CreateToggle({
     Name = "Auto Third Sea",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoThirdSea",
     Callback = function(Value)
         _G.Settings.Main["Auto Third Sea"] = Value
-    end    
+    end
 })
 
 -- Fighting Styles
-StylesTab:AddToggle({
+StylesTab:CreateToggle({
     Name = "Auto Superhuman",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoSuperhuman",
     Callback = function(Value)
         _G.Settings.FightingStyle["Auto Superhuman"] = Value
-    end    
+    end
 })
 
-StylesTab:AddToggle({
+StylesTab:CreateToggle({
     Name = "Auto Electric Claw",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoElectricClaw",
     Callback = function(Value)
         _G.Settings.FightingStyle["Auto Electric Claw"] = Value
-    end    
+    end
 })
 
-StylesTab:AddToggle({
+StylesTab:CreateToggle({
     Name = "Auto Death Step",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoDeathStep",
     Callback = function(Value)
         _G.Settings.FightingStyle["Auto Death Step"] = Value
-    end    
+    end
 })
 
-StylesTab:AddToggle({
+StylesTab:CreateToggle({
     Name = "Auto Dragon Talon",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoDragonTalon",
     Callback = function(Value)
         _G.Settings.FightingStyle["Auto Dragon Talon"] = Value
-    end    
+    end
 })
 
-StylesTab:AddToggle({
+StylesTab:CreateToggle({
     Name = "Auto God Human",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoGodHuman",
     Callback = function(Value)
         _G.Settings.FightingStyle["Auto God Human"] = Value
-    end    
+    end
 })
 
 -- Stats Features
-StatsTab:AddToggle({
+StatsTab:CreateToggle({
     Name = "Auto Stats",
-    Default = false,
+    CurrentValue = false,
+    Flag = "AutoStats",
     Callback = function(Value)
         _G.Settings.Stat["Enabled Auto Stats"] = Value
-    end    
+    end
 })
 
-StatsTab:AddDropdown({
+StatsTab:CreateDropdown({
     Name = "Select Stats",
-    Default = "Melee",
     Options = {"Melee", "Defense", "Sword", "Gun", "Devil Fruit"},
+    CurrentOption = "Melee",
+    Flag = "SelectedStats",
     Callback = function(Value)
         _G.Settings.Stat["Select Stats"] = Value
-    end    
+    end
 })
 
-StatsTab:AddSlider({
+StatsTab:CreateSlider({
     Name = "Points Per Stats",
-    Min = 1,
-    Max = 9,
-    Default = 3,
-    Color = Color3.fromRGB(255,255,255),
+    Range = {1, 9},
     Increment = 1,
+    CurrentValue = 3,
+    Flag = "PointsPerStat",
     Callback = function(Value)
         _G.Settings.Stat["Point Select"] = Value
-    end    
+    end
 })
 
 -- Settings
-SettingsTab:AddDropdown({
+SettingsTab:CreateDropdown({
     Name = "Select Weapon",
-    Default = "Melee",
     Options = {"Melee", "Sword", "Fruit"},
+    CurrentOption = "Melee",
+    Flag = "SelectedWeapon",
     Callback = function(Value)
         SelectWeapon = Value
-    end    
+    end
 })
 
-SettingsTab:AddToggle({
+SettingsTab:CreateToggle({
     Name = "Fast Attack",
-    Default = true,
+    CurrentValue = true,
+    Flag = "FastAttack",
     Callback = function(Value)
         _G.Settings.Configs["Fast Attack"] = Value
-    end    
+    end
 })
 
-SettingsTab:AddDropdown({
+SettingsTab:CreateDropdown({
     Name = "Fast Attack Type",
-    Default = "Fast",
     Options = {"Fast", "Normal", "Slow"},
+    CurrentOption = "Fast",
+    Flag = "FastAttackType",
     Callback = function(Value)
         _G.Settings.Configs["Fast Attack Type"] = Value
-    end    
+    end
 })
 
-SettingsTab:AddToggle({
+SettingsTab:CreateToggle({
     Name = "Auto Haki",
-    Default = true,
+    CurrentValue = true,
+    Flag = "AutoHaki",
     Callback = function(Value)
         _G.Settings.Configs["Auto Haki"] = Value
-    end    
+    end
 })
 
-SettingsTab:AddSlider({
+SettingsTab:CreateSlider({
     Name = "Distance Auto Farm",
-    Min = 1,
-    Max = 50,
-    Default = 20,
-    Color = Color3.fromRGB(255,255,255),
+    Range = {1, 50},
     Increment = 1,
+    CurrentValue = 20,
+    Flag = "AutoFarmDistance",
     Callback = function(Value)
         _G.Settings.Configs["Distance Auto Farm"] = Value
-    end    
+    end
 })
 
 -- Misc Settings
-SettingsTab:AddToggle({
+SettingsTab:CreateToggle({
     Name = "Bypass TP",
-    Default = false,
+    CurrentValue = false,
+    Flag = "BypassTP",
     Callback = function(Value)
         _G.Settings.Configs["Bypass TP"] = Value
-    end    
+    end
 })
 
-SettingsTab:AddToggle({
+SettingsTab:CreateToggle({
     Name = "Auto Rejoin",
-    Default = true,
+    CurrentValue = true,
+    Flag = "AutoRejoin",
     Callback = function(Value)
         _G.Settings.Misc["Auto Rejoin"] = Value
-    end    
+    end
 })
-
--- [Keep all original functions and logic below this point]
-local function QuestCheck()
-    -- [Original QuestCheck function code remains the same]
-end
-
-local function Bypass(Point)
-    -- [Original Bypass function code remains the same]
-end
-
-local function toTarget(...)
-    -- [Original toTarget function code remains the same]
-end
-
-local function InMyNetWork(object)
-    -- [Original InMyNetWork function code remains the same]
-end
-
--- Keep all the original spawning functions
-spawn(function()
-    while true do wait()
-        if setscriptable then
-            setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
-        end
-        if sethiddenproperty then
-            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
-        end
-    end
-end)
-
--- Main farming loop
-spawn(function()
-    while task.wait() do
-        if _G.AutoFarmLevelReal then
-            pcall(function()
-                -- [Original farming logic remains the same]
-            end)
-        end
-    end
-end)
-
--- Auto Stats
-spawn(function()
-    while wait() do
-        if _G.Settings.Stat["Enabled Auto Stats"] then
-            if game:GetService("Players").LocalPlayer.Data.Points.Value >= _G.Settings.Stat["Point Select"] then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint", _G.Settings.Stat["Select Stats"], _G.Settings.Stat["Point Select"])
-            end
-        end
-    end
-end)
-
--- Auto Haki
-spawn(function()
-    while wait() do
-        if _G.Settings.Configs["Auto Haki"] then
-            if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
-            end
-        end
-    end
-end)
-
--- Auto Rejoin
-spawn(function()
-    while wait() do
-        if _G.Settings.Misc["Auto Rejoin"] then
-            game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(child)
-                if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
-                    game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
-                end
-            end)
-        end
-    end
-end)
-
--- Initialize
-OrionLib:Init()
