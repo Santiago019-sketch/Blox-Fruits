@@ -2,13 +2,34 @@ local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shle
 
 -- Initialize main window
 local Window = OrionLib:MakeWindow({
-    Name = "Midnight Hub",
+    Name = "Midnight Hub | Blox Fruits",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "MidnightHubConfig"
 })
 
--- Initialize Combat Framework
+-- Global Settings
+_G.Settings = {
+    Main = {
+        ["Auto Farm Level"] = false,
+        ["Fast Auto Farm"] = false,
+        ["Auto New World"] = false,
+    },
+    Configs = {
+        ["Auto Haki"] = true,
+        ["Fast Attack"] = true,
+        ["Fast Attack Type"] = "Normal",
+        ["Select Weapon"] = "",
+        ["Distance Auto Farm"] = 20,
+    },
+    Visual = {
+        ["Show Hitbox"] = false,
+        ["No Fog"] = false,
+        ["FPS Boost"] = false,
+    }
+}
+
+-- Combat Framework Setup
 local CombatFramework = require(game:GetService("Players").LocalPlayer.PlayerScripts:WaitForChild("CombatFramework"))
 local CombatFrameworkR = getupvalues(CombatFramework)[2]
 local RigController = require(game:GetService("Players")["LocalPlayer"].PlayerScripts.CombatFramework.RigController)
@@ -21,128 +42,183 @@ function GetCurrentLevel()
     return game.Players.LocalPlayer.Data.Level.Value
 end
 
-function GetQuest()
+function GetQuestLevel()
     local Lv = GetCurrentLevel()
-    local questName, questTitle, questLv, questMob, questCount
-    -- Add quest data based on level here
+    local Quest = {}
+    
     if Lv >= 1 and Lv <= 9 then
-        questName = "BanditQuest1"
-        questTitle = "Bandit"
-        questLv = 1
-        questMob = "Bandit"
-        questCount = 1
+        Quest.Name = "BanditQuest1"
+        Quest.Level = 1
+        Quest.Mob = "Bandit [Lv. 5]"
+        Quest.Count = 1
+        Quest.SpawnPoint = CFrame.new(1060.0065917969, 16.424287796021, 1547.9396972656)
     elseif Lv >= 10 and Lv <= 14 then
-        questName = "JungleQuest"
-        questTitle = "Monkey"
-        questLv = 10
-        questMob = "Monkey"
-        questCount = 2
+        Quest.Name = "JungleQuest"
+        Quest.Level = 1
+        Quest.Mob = "Monkey [Lv. 14]"
+        Quest.Count = 2
+        Quest.SpawnPoint = CFrame.new(-1598.08911, 35.5501175, 153.377838, 0, 0, 1, 0, 1, -0, -1, 0, 0)
     end
     -- Add more quest levels as needed
     
-    return {
-        Name = questName,
-        Title = questTitle,
-        LevelReq = questLv,
-        Mob = questMob,
-        Count = questCount
-    }
+    return Quest
 end
 
 function CheckQuest()
-    local Lv = GetCurrentLevel()
-    local questData = GetQuest()
+    local Quest = GetQuestLevel()
     
     if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", questData.Name, questData.LevelReq)
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", Quest.Name, Quest.Level)
     end
 end
 
--- Teleport Function
-function Teleport(pos)
-    if typeof(pos) == "CFrame" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = pos
-    elseif typeof(pos) == "Vector3" then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(pos)
-    end
-end
-
--- Get Mob Function
 function GetMob()
-    local questData = GetQuest()
-    local target
+    local Quest = GetQuestLevel()
+    local Target
     
     for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
-        if v.Name == questData.Mob and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-            target = v
+        if v.Name == Quest.Mob and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+            Target = v
             break
         end
     end
     
-    return target
+    if Target then
+        return Target
+    end
+    
+    -- If no target found, check spawn points
+    return Quest.SpawnPoint
+end
+
+-- Attack Functions
+function FastAttack()
+    local ac = CombatFrameworkR.activeController
+    if ac and ac.equipped then
+        for i = 1, 1 do
+            local bladehit = require(game.ReplicatedStorage.CombatFramework.RigLib).getBladeHits(
+                ac.blades[1].Size,
+                ac.timeToNextAttack,
+                ac.blades[1].Orientation,
+                CFrame.new(0, 0, 0)
+            )
+            local cac = {}
+            local hash = {}
+            for k, v in pairs(bladehit) do
+                if v.Parent:FindFirstChild("HumanoidRootPart") and not hash[v.Parent] then
+                    table.insert(cac, v.Parent.HumanoidRootPart)
+                    hash[v.Parent] = true
+                end
+            end
+            bladehit = cac
+            if #bladehit > 0 then
+                ac:attack()
+            end
+        end
+    end
 end
 
 -- Main Farm Function
 function StartFarm()
     if _G.Settings.Main["Auto Farm Level"] then
         CheckQuest()
-        local mob = GetMob()
+        local Target = GetMob()
         
-        if mob then
-            PosMon = mob.HumanoidRootPart.CFrame
-            Teleport(mob.HumanoidRootPart.CFrame * CFrame.new(0, _G.Settings.Configs["Distance Auto Farm"], 0))
-            
-            if _G.Settings.Configs["Auto Haki"] then
-                if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
+        if Target then
+            if Target:IsA("Model") then
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = 
+                    Target.HumanoidRootPart.CFrame * CFrame.new(0, _G.Settings.Configs["Distance Auto Farm"], 0)
+                
+                if _G.Settings.Configs["Auto Haki"] then
+                    if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buso")
+                    end
                 end
+                
+                if _G.Settings.Configs["Fast Attack"] then
+                    FastAttack()
+                end
+            else
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = 
+                    Target * CFrame.new(0, _G.Settings.Configs["Distance Auto Farm"], 0)
             end
-            
-            game:GetService("VirtualUser"):CaptureController()
-            game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
         end
     end
 end
 
--- Create Tabs
-local Tab1 = Window:MakeTab({Name = "Main", Icon = "rbxassetid://4483345998"})
+-- Create Main Tab
+local MainTab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
--- Main Farm Section
-local FarmSection = Tab1:AddSection({Name = "Farming"})
+-- Main Section
+local MainSection = MainTab:AddSection({
+    Name = "Main Farm"
+})
 
-FarmSection:AddToggle({
+MainSection:AddToggle({
     Name = "Auto Farm Level",
     Default = false,
+    Flag = "AutoFarm",
+    Save = true,
     Callback = function(Value)
         _G.Settings.Main["Auto Farm Level"] = Value
         SaveSettings()
-    end
+    end    
 })
 
--- Settings
-_G.Settings = {
-    Main = {
-        ["Auto Farm Level"] = false,
-        ["Distance Auto Farm"] = 20,
-    },
-    Configs = {
-        ["Auto Haki"] = true,
-        ["Distance Auto Farm"] = 20,
-    }
-}
+MainSection:AddToggle({
+    Name = "Fast Attack",
+    Default = true,
+    Flag = "FastAttack",
+    Save = true,
+    Callback = function(Value)
+        _G.Settings.Configs["Fast Attack"] = Value
+        SaveSettings()
+    end    
+})
 
--- Start Farm Loop
+MainSection:AddToggle({
+    Name = "Auto Haki",
+    Default = true,
+    Flag = "AutoHaki",
+    Save = true,
+    Callback = function(Value)
+        _G.Settings.Configs["Auto Haki"] = Value
+        SaveSettings()
+    end    
+})
+
+MainSection:AddSlider({
+    Name = "Farm Distance",
+    Min = 10,
+    Max = 50,
+    Default = 20,
+    Color = Color3.fromRGB(255,255,255),
+    Increment = 1,
+    ValueName = "Distance",
+    Flag = "FarmDistance",
+    Save = true,
+    Callback = function(Value)
+        _G.Settings.Configs["Distance Auto Farm"] = Value
+        SaveSettings()
+    end    
+})
+
+-- Main Farm Loop
 spawn(function()
     while wait() do
-        if _G.Settings.Main["Auto Farm Level"] then
-            pcall(function()
+        pcall(function()
+            if _G.Settings.Main["Auto Farm Level"] then
                 StartFarm()
-            end)
-        end
+            end
+        end)
     end
 end)
 
--- Save/Load Settings
+-- Save/Load Settings Functions
 function SaveSettings()
     local HttpService = game:GetService("HttpService")
     if not isfolder("MidnightHub") then
